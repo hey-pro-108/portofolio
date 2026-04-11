@@ -1,664 +1,200 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hexa_sec | Penetration Tester & Security Researcher</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg-dark: #0a0c0f;
-            --bg-card: #0f1217;
-            --neon-green: #00ff9d;
-            --neon-glow: rgba(0, 255, 157, 0.4);
-            --text-dim: #b0b3b8;
-            --border-glow: rgba(0, 255, 157, 0.2);
-            --font-mono: 'Fira Code', monospace;
-            --font-main: 'Poppins', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: #eef2ff;
-            font-family: var(--font-main);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        .cyber-grid {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                repeating-linear-gradient(0deg, rgba(0, 255, 157, 0.02) 1px, transparent 1px, transparent 2px),
-                repeating-linear-gradient(90deg, rgba(0, 255, 157, 0.02) 1px, transparent 1px, transparent 2px);
-            background-size: 40px 40px;
-            pointer-events: none;
-            z-index: -2;
-        }
-
-        .cyber-grid::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(0deg, rgba(0,255,0,0.03) 0px, rgba(0,255,0,0.03) 2px, transparent 2px, transparent 6px);
-            pointer-events: none;
-        }
-
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 32px;
-        }
-
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 18px 0;
-            background: rgba(10, 12, 15, 0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-glow);
-            z-index: 1000;
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 32px;
-        }
-
-        .brand {
-            font-family: var(--font-mono);
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #fff;
-            text-decoration: none;
-            letter-spacing: -0.5px;
-        }
-        .brand span {
-            color: var(--neon-green);
-            text-shadow: 0 0 8px var(--neon-green);
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 32px;
-        }
-        .nav-links a {
-            color: #aaa;
-            text-decoration: none;
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: 0.25s;
-            letter-spacing: 0.5px;
-        }
-        .nav-links a:hover {
-            color: var(--neon-green);
-            text-shadow: 0 0 4px var(--neon-green);
-        }
-
-        #hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding-top: 80px;
-        }
-        .hero-content {
-            width: 100%;
-        }
-        .status-bar {
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            color: var(--neon-green);
-            background: rgba(0, 255, 157, 0.1);
-            display: inline-block;
-            padding: 4px 16px;
-            border-radius: 40px;
-            margin-bottom: 20px;
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(0, 255, 157, 0.3);
-        }
-        .hero-name {
-            font-size: 5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff 30%, var(--neon-green) 80%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 12px;
-        }
-        .hero-tagline {
-            font-size: 1rem;
-            letter-spacing: 3px;
-            font-family: var(--font-mono);
-            color: #9ca3af;
-            margin-bottom: 30px;
-        }
-        .terminal-loader {
-            font-family: var(--font-mono);
-            color: var(--neon-green);
-            background: #00000055;
-            display: inline-block;
-            padding: 6px 20px;
-            border-radius: 30px;
-            margin-bottom: 35px;
-            font-size: 0.9rem;
-            border-right: 2px solid var(--neon-green);
-            animation: blinkCursor 0.8s infinite;
-        }
-        .btn-primary {
-            display: inline-block;
-            padding: 12px 32px;
-            border: 1.5px solid var(--neon-green);
-            color: var(--neon-green);
-            text-decoration: none;
-            font-weight: 600;
-            font-family: var(--font-mono);
-            transition: 0.25s;
-            background: transparent;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        .btn-primary:hover {
-            background: var(--neon-green);
-            color: #000;
-            box-shadow: 0 0 18px var(--neon-glow);
-        }
-
-        section {
-            padding: 100px 0;
-        }
-        .section-title {
-            font-size: 2.3rem;
-            font-family: var(--font-mono);
-            margin-bottom: 48px;
-            font-weight: 600;
-        }
-        .code-text {
-            color: var(--neon-green);
-            font-weight: 500;
-        }
-
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 48px;
-            align-items: start;
-        }
-        .about-text p {
-            margin-bottom: 20px;
-            color: var(--text-dim);
-            font-size: 1rem;
-        }
-        .highlight {
-            color: var(--neon-green);
-            font-weight: 600;
-            text-shadow: 0 0 3px var(--neon-green);
-        }
-        .certs-showcase {
-            background: var(--bg-card);
-            border: 1px solid #1e2a2a;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
-        }
-        .certs-title {
-            font-family: var(--font-mono);
-            font-size: 0.9rem;
-            color: var(--neon-green);
-            margin-bottom: 18px;
-            border-left: 3px solid var(--neon-green);
-            padding-left: 12px;
-        }
-        .cert-grid-direct {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
-            margin-bottom: 8px;
-        }
-        .cert-card {
-            background: #0a0e12;
-            border-radius: 14px;
-            overflow: hidden;
-            border: 1px solid #2a2f36;
-            transition: 0.25s;
-        }
-        .cert-card:hover {
-            border-color: var(--neon-green);
-            transform: translateY(-3px);
-            box-shadow: 0 0 12px rgba(0, 255, 157, 0.2);
-        }
-        .cert-card-img {
-            width: 100%;
-            height: 130px;
-            object-fit: cover;
-            display: block;
-            border-bottom: 1px solid #2a2f36;
-            background: #050708;
-        }
-        .cert-card-label {
-            font-size: 0.7rem;
-            font-family: var(--font-mono);
-            padding: 10px 6px;
-            text-align: center;
-            color: #c0cbd6;
-            background: #0c0f14;
-            font-weight: 500;
-        }
-        .verif-badge {
-            text-align: center;
-            font-size: 0.65rem;
-            margin-top: 14px;
-            color: var(--neon-green);
-            opacity: 0.7;
-            font-family: var(--font-mono);
-        }
-
-        .tiktok-profile-card {
-            margin-top: 24px;
-            background: linear-gradient(135deg, #0f1217 0%, #0a0c12 100%);
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid rgba(0, 255, 157, 0.25);
-            transition: 0.3s;
-            text-decoration: none;
-            display: block;
-        }
-        .tiktok-profile-card:hover {
-            border-color: var(--neon-green);
-            box-shadow: 0 0 20px rgba(0, 255, 157, 0.15);
-            transform: translateY(-2px);
-        }
-        .tiktok-inner {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        .tiktok-avatar {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--neon-green);
-            box-shadow: 0 0 10px rgba(0, 255, 157, 0.4);
-        }
-        .tiktok-info {
-            flex: 1;
-        }
-        .tiktok-username {
-            font-family: var(--font-mono);
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: -0.3px;
-        }
-        .tiktok-username span {
-            color: var(--neon-green);
-        }
-        .tiktok-stats {
-            display: flex;
-            gap: 24px;
-            margin-top: 8px;
-            font-size: 0.85rem;
-            font-family: var(--font-mono);
-        }
-        .stat {
-            color: #9ca3af;
-        }
-        .stat strong {
-            color: var(--neon-green);
-            font-weight: 700;
-        }
-        .tiktok-link-icon {
-            color: var(--neon-green);
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            background: rgba(0, 255, 157, 0.1);
-            padding: 6px 14px;
-            border-radius: 40px;
-            transition: 0.2s;
-        }
-        .tiktok-profile-card:hover .tiktok-link-icon {
-            background: var(--neon-green);
-            color: #000;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 32px;
-        }
-        .skill-item {
-            background: rgba(15, 18, 23, 0.6);
-            padding: 12px 18px;
-            border-radius: 12px;
-            border-left: 3px solid var(--neon-green);
-        }
-        .skill-name {
-            font-family: var(--font-mono);
-            font-size: 0.9rem;
-            margin-bottom: 8px;
-        }
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background: #1f242c;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .progress {
-            height: 100%;
-            background: var(--neon-green);
-            box-shadow: 0 0 6px var(--neon-green);
-            width: 0%;
-            border-radius: 8px;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
-        }
-        .project-card {
-            background: var(--bg-card);
-            padding: 28px;
-            border-radius: 20px;
-            border: 1px solid #21262d;
-            transition: 0.25s;
-        }
-        .project-card:hover {
-            border-color: var(--neon-green);
-            transform: translateY(-6px);
-        }
-        .p-tag {
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            color: var(--neon-green);
-            margin-bottom: 12px;
-        }
-        .tech-stack {
-            font-size: 0.75rem;
-            font-family: var(--font-mono);
-            color: #6c757d;
-            margin-top: 18px;
-        }
-
-        .contact-content {
-            text-align: center;
-        }
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 36px;
-            margin-top: 40px;
-            flex-wrap: wrap;
-        }
-        .social-item {
-            text-decoration: none;
-            color: #ccc;
-            font-family: var(--font-mono);
-            font-weight: 500;
-            transition: 0.2s;
-            border-bottom: 1px dashed #2a2f36;
-            padding-bottom: 4px;
-        }
-        .social-item:hover {
-            color: var(--neon-green);
-            border-bottom-color: var(--neon-green);
-        }
-        footer {
-            padding: 40px 0;
-            text-align: center;
-            border-top: 1px solid #1e2a2a;
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: #5a6573;
-        }
-
-        @keyframes blinkCursor {
-            50% { border-color: transparent; }
-        }
-
-        @media (max-width: 880px) {
-            .about-grid { grid-template-columns: 1fr; }
-            .skills-grid { grid-template-columns: 1fr; }
-            .hero-name { font-size: 3rem; }
-            .nav-links { display: none; }
-            .cert-grid-direct { grid-template-columns: 1fr; }
-            .container { padding: 0 20px; }
-            section { padding: 70px 0; }
-            .tiktok-inner { flex-direction: column; text-align: center; }
-            .tiktok-stats { justify-content: center; }
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>HEXA_SEC</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=VT323&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="cyber-grid"></div>
+<div class="desktop">
+    <div class="taskbar">
+        <div class="start-button" id="startBtn">START</div>
+        <div class="taskbar-tray">
+            <span class="tray-icon">[::]</span>
+            <span class="tray-clock" id="clock">--:--</span>
+        </div>
+    </div>
 
-<div id="main-portfolio">
-    <header>
-        <nav class="nav-container">
-            <a href="#hero" class="brand">HEXA<span>_SEC</span></a>
-            <ul class="nav-links">
-                <li><a href="#about">whoami</a></li>
-                <li><a href="#skills">weapons</a></li>
-                <li><a href="#projects">audits</a></li>
-                <li><a href="#contact">contact</a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <main>
-        <section id="hero">
-            <div class="container hero-content">
-                <div class="status-bar">[ SECURE ENCRYPTION ACTIVE ]</div>
-                <h1 class="hero-name">HEXA<span style="color:var(--neon-green);">_SEC</span></h1>
-                <p class="hero-tagline">PENETRATION TESTER | OFFENSIVE SECURITY | ETHICAL HACKER</p>
-                <div class="terminal-loader">> Initializing exploit framework...</div>
-                <a href="#projects" class="btn-primary">→ EXPLORE TRAJECTORY</a>
+    <div class="workspace" id="workspace">
+        <div class="window" id="winHero">
+            <div class="window-bar">
+                <span class="win-title">> HEXA_SEC.EXE</span>
+                <div class="win-buttons">
+                    <span class="win-btn">_</span>
+                    <span class="win-btn">□</span>
+                    <span class="win-btn">X</span>
+                </div>
             </div>
-        </section>
-        
-        <section id="about">
-            <div class="container">
-                <h2 class="section-title"><span class="code-text">01.</span> WHO_AM_I & CREDENTIALS</h2>
+            <div class="window-body hero-area">
+                <div class="ascii-header">
+
+                </div>
+                <h1>HEXA_SEC</h1>
+                <p class="tagline">PENETRATION TESTER & RED TEAM OPERATOR</p>
+                <div class="status-led">
+                    <span class="led-red"></span> SYSTEM ACTIVE
+                </div>
+                <button class="retro-btn" id="exploreBtn">>> EXPLORE <<</button>
+            </div>
+        </div>
+
+        <div class="window" id="winAbout">
+            <div class="window-bar">
+                <span class="win-title">> WHOAMI.EXE</span>
+                <div class="win-buttons">
+                    <span class="win-btn">_</span>
+                    <span class="win-btn">□</span>
+                    <span class="win-btn">X</span>
+                </div>
+            </div>
+            <div class="window-body">
                 <div class="about-grid">
                     <div class="about-text">
-                        <p>Saya <span class="highlight">Hexa_sec</span>, seorang spesialis keamanan siber dengan fokus pada <span class="highlight">Penetration Testing</span> dan <span class="highlight">Red Teaming</span>. Berpengalaman dalam melakukan eksploitasi sistem, evaluasi keamanan jaringan, dan menemukan celah kritis sebelum dieksploitasi aktor jahat.</p>
-                        <p>Memegang berbagai sertifikasi prestisius dari institusi ternama. Saya percaya pendekatan <span class="highlight">proactive security</span> adalah kunci melindungi infrastruktur modern. Terdaftar sebagai white-hat researcher dan aktif dalam komunitas keamanan siber.</p>
-                        <p>Dibekali dengan metodologi OWASP, PTES, dan kemampuan reverse engineering — setiap audit saya lakukan dengan presisi dan etika tinggi.</p>
+                        <p><span class="prompt">C:\></span> profile --detail</p>
+                        <p>Saya adalah seorang yang sedang belajar keamanan siber dengan fokus pada penetration testing dan red teaming. </p>
+                        <p>Sertifikasi: Universitas Brawijaya, Malangkab, Pekalongankab, Kotabarukab.</p>
                     </div>
-                    <div class="certs-showcase">
-                        <div class="certs-title">⟫ SERTIFIKAT RESMI</div>
-                        <div class="cert-grid-direct">
-                            <div class="cert-card">
-                                <img class="cert-card-img" src="https://i.ibb.co.com/xqmwnYW5/Screenshot-20260327-203415.jpg" alt="Universitas Brawijaya Certificate">
-                                <div class="cert-card-label">Universitas Brawijaya - Piagam Penghargaan</div>
-                            </div>
-                            <div class="cert-card">
-                                <img class="cert-card-img" src="https://i.ibb.co.com/4wVbXC18/Screenshot-20260327-203645.jpg" alt="Malangkab Certificate">
-                                <div class="cert-card-label">Malangkab - Apresiasi CSIRT</div>
-                            </div>
-                            <div class="cert-card">
-                                <img class="cert-card-img" src="https://i.ibb.co.com/Lz1PL5py/Screenshot-20260327-203754.jpg" alt="Kotabarukab Certificate">
-                                <div class="cert-card-label">Kotabarukab - Sertifikat Apresiasi</div>
-                            </div>
-                            <div class="cert-card">
-                                <img class="cert-card-img" src="https://i.ibb.co.com/Zpfd9fk1/Screenshot-20260327-203859.jpg" alt="Pekalongankab Certificate">
-                                <div class="cert-card-label">Pekalongankab - Pengabdian Keamanan Siber</div>
+                    <div class="cert-list">
+                        <div class="cert-item">[CERT] Universitas Brawijaya - 2026 vulnerability found</div>
+                        <div class="cert-item">[CERT] Malang - 2026 vulnerability found </div>
+                        <div class="cert-item">[CERT] Kota Baru - 2026 vulnerability found</div>
+                        <div class="cert-item">[CERT] Pekalongan - 2025 vulnerability found</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" id="winCerts">
+            <div class="window-bar">
+                <span class="win-title">> CERTIFICATES.GAL</span>
+                <div class="win-buttons">
+                    <span class="win-btn">_</span>
+                    <span class="win-btn">□</span>
+                    <span class="win-btn">X</span>
+                </div>
+            </div>
+            <div class="window-body">
+                <div class="certs-gallery">
+                    <div class="cert-card">
+                        <img class="cert-img" src="https://i.ibb.co.com/xqmwnYW5/Screenshot-20260327-203415.jpg" alt="Universitas Brawijaya Certificate">
+                        <div class="cert-label">Universitas Brawijaya - Piagam Penghargaan</div>
+                    </div>
+                    <div class="cert-card">
+                        <img class="cert-img" src="https://i.ibb.co.com/4wVbXC18/Screenshot-20260327-203645.jpg" alt="Malangkab Certificate">
+                        <div class="cert-label">Malangkab - Apresiasi CSIRT</div>
+                    </div>
+                    <div class="cert-card">
+                        <img class="cert-img" src="https://i.ibb.co.com/Lz1PL5py/Screenshot-20260327-203754.jpg" alt="Kotabarukab Certificate">
+                        <div class="cert-label">Kotabarukab - Sertifikat Apresiasi</div>
+                    </div>
+                    <div class="cert-card">
+                        <img class="cert-img" src="https://i.ibb.co.com/Zpfd9fk1/Screenshot-20260327-203859.jpg" alt="Pekalongankab Certificate">
+                        <div class="cert-label">Pekalongankab - Pengabdian Keamanan Siber</div>
+                    </div>
+                </div>
+                <div class="verif-badge">Terverifikasi: Universitas Brawijaya | Malangkab | Kotabarukab | Pekalongankab</div>
+                <a href="https://www.tiktok.com/@heloiamordanaryperson?_r=1&_t=ZS-94xW6l5IRwf" target="_blank" rel="noopener noreferrer" class="tiktok-card">
+                    <div class="tiktok-inner">
+                        <img class="tiktok-avatar" src="https://i.ibb.co.com/5gbtXMtQ/vidgap-com-heloiamordanaryperson-heloiamordanaryperson-profile.webp" alt="TikTok Profile">
+                        <div class="tiktok-info">
+                            <div class="tiktok-username">@heloiamordanaryperson</div>
+                            <div class="tiktok-stats">
+                                <span class="stat">18.7K Followers</span>
+                                <span class="stat">1.3M Likes</span>
                             </div>
                         </div>
-                        <div class="verif-badge">Terverifikasi: Universitas Brawijaya | Malangkab | Kotabarukab | Pekalongankab</div>
-                        
-                        <a href="https://www.tiktok.com/@heloiamordanaryperson?_r=1&_t=ZS-94xW6l5IRwf" target="_blank" rel="noopener noreferrer" class="tiktok-profile-card">
-                            <div class="tiktok-inner">
-                                <img class="tiktok-avatar" src="https://i.ibb.co.com/5gbtXMtQ/vidgap-com-heloiamordanaryperson-heloiamordanaryperson-profile.webp" alt="TikTok Profile">
-                                <div class="tiktok-info">
-                                    <div class="tiktok-username">@<span>heloiamordanaryperson</span></div>
-                                    <div class="tiktok-stats">
-                                        <div class="stat"><strong>18.7K</strong> Followers</div>
-                                        <div class="stat"><strong>1.3M</strong> Likes</div>
-                                    </div>
-                                </div>
-                                <div class="tiktok-link-icon">Follow on TikTok</div>
-                            </div>
-                        </a>
+                        <div class="tiktok-link">FOLLOW ON TIKTOK</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="window" id="winSkills">
+            <div class="window-bar">
+                <span class="win-title">> TOOLSET.DAT</span>
+                <div class="win-buttons">
+                    <span class="win-btn">_</span>
+                    <span class="win-btn">□</span>
+                    <span class="win-btn">X</span>
+                </div>
+            </div>
+            <div class="window-body">
+                <div class="skills-container">
+                    <div class="skill-row">
+                        <span class="skill-name">Network Pentesting</span>
+                        <div class="progress"><div class="progress-fill" style="width: 94%"></div></div>
+                    </div>
+                    <div class="skill-row">
+                        <span class="skill-name">Web App Security</span>
+                        <div class="progress"><div class="progress-fill" style="width: 91%"></div></div>
+                    </div>
+                    <div class="skill-row">
+                        <span class="skill-name">Red Teaming</span>
+                        <div class="progress"><div class="progress-fill" style="width: 87%"></div></div>
+                    </div>
+                    <div class="skill-row">
+                        <span class="skill-name">Python / Bash</span>
+                        <div class="progress"><div class="progress-fill" style="width: 84%"></div></div>
                     </div>
                 </div>
             </div>
-        </section>
-        
-        <section id="skills">
-            <div class="container">
-                <h2 class="section-title"><span class="code-text">02.</span> WEAPONRY & TOOLSET</h2>
-                <div class="skills-grid">
-                    <div class="skill-item"><p class="skill-name">WEB PENTESTING (Burp Suite, OWASP ZAP, SQLmap)</p><div class="progress-bar"><div class="progress" style="width: 96%"></div></div></div>
-                    <div class="skill-item"><p class="skill-name">NETWORK / INFRA (Nmap, Metasploit, Wireshark)</p><div class="progress-bar"><div class="progress" style="width: 92%"></div></div></div>
-                    <div class="skill-item"><p class="skill-name">LINUX PRIVILEGE ESCALATION & AD Exploit</p><div class="progress-bar"><div class="progress" style="width: 88%"></div></div></div>
-                    <div class="skill-item"><p class="skill-name">PYTHON / BASH AUTOMATION & TOOL DEV</p><div class="progress-bar"><div class="progress-bar"><div class="progress" style="width: 85%"></div></div></div>
+        </div>
+
+        <div class="window" id="winProjects">
+            <div class="window-bar">
+                <span class="win-title">> PROJECTS.LOG</span>
+                <div class="win-buttons">
+                    <span class="win-btn">_</span>
+                    <span class="win-btn">□</span>
+                    <span class="win-btn">X</span>
                 </div>
             </div>
-        </section>
-        
-        <section id="projects">
-            <div class="container">
-                <h2 class="section-title"><span class="code-text">03.</span> SECURITY_AUDITS & EXPLOITS</h2>
+            <div class="window-body">
                 <div class="projects-grid">
                     <div class="project-card">
-                        <div class="p-tag">[ RED TEAM ENGAGEMENT ]</div>
-                        <h3>Corporate Infrastructure Takeover</h3>
-                        <p>Simulasi serangan terhadap Fortune 500 partner: Kerberos attack, AD misconfiguration, dan lateral movement sukses mengamankan 200+ endpoint.</p>
-                        <div class="tech-stack">BloodHound | Cobalt Strike | PowerShell Empire</div>
+                        <div class="project-title">[RTE-2024] Corporate AD Takeover</div>
+                        <p>Successful red team engagement compromising domain controller via Kerberoasting and privilege escalation.</p>
+                        <div class="project-tags">BloodHound | Cobalt Strike | PowerShell</div>
                     </div>
                     <div class="project-card">
-                        <div class="p-tag">[ WEBAPP BUG BOUNTY ]</div>
-                        <h3>Critical RCE & SQLi Chain</h3>
-                        <p>Menemukan celah kritis pada platform e-commerce (pre-auth RCE) dan mendapatkan bounty $10k serta pengakuan CVE-2025-xxxx.</p>
-                        <div class="tech-stack">SQLmap | FFUF | Custom Bypass WAF</div>
+                        <div class="project-title">[BB-2025] E-commerce RCE Chain</div>
+                        <p>Discovered pre-auth RCE vulnerability leading to $10k bounty and CVE assignment.</p>
+                        <div class="project-tags">Burp Suite | SQLmap | Custom WAF Bypass</div>
                     </div>
                     <div class="project-card">
-                        <div class="p-tag">[ INFRA PENTEST ]</div>
-                        <h3>Cloud Security Hardening</h3>
-                        <p>Audit dan remediasi cluster Kubernetes serta misconfig AWS S3, meningkatkan postur keamanan untuk startup unicorn.</p>
-                        <div class="tech-stack">kube-hunter | CloudMapper | Trivy</div>
+                        <div class="project-title">[CLOUD] Kubernetes Hardening</div>
+                        <p>Audited and secured K8s clusters for a fintech startup, fixed misconfigurations and RBAC issues.</p>
+                        <div class="project-tags">kube-hunter | Trivy | CloudMapper</div>
                     </div>
                 </div>
             </div>
-        </section>
-        
-        <section id="contact">
-            <div class="container contact-content">
-                <h2 class="section-title">INITIATE_HANDSHAKE</h2>
-                <p style="max-width: 600px; margin: 0 auto;">Butuh audit keamanan mendalam, threat hunting, atau konsultasi infrastruktur? Koneksi saya selalu tersedia secara aman.</p>
-                <div class="social-links">
-                    <a href="#" class="social-item">belum punya LinkedIn</a>
-                    <span class="social-item" style="color:var(--neon-green);">nxhunter82@gmail.com</span>
-                </div>
-            </div>
-        </section>
-    </main>
-    
-    <footer>
-        <div class="container">
-            <p>2026 Hexa_sec | Offensive Security Portfolio</p>
         </div>
-    </footer>
+
+        <div class="window" id="winContact">
+            <div class="window-bar">
+                <span class="win-title">> CONTACT.INF</span>
+                <div class="win-buttons">
+                    <span class="win-btn">_</span>
+                    <span class="win-btn">□</span>
+                    <span class="win-btn">X</span>
+                </div>
+            </div>
+            <div class="window-body contact-area">
+                <p>INITIATE SECURE HANDSHAKE</p>
+                <div class="contact-links">
+                    <a href="https://github.com/hey-pro-108/" class="retro-link">[GITHUB]</a>
+                  
+                    <span class="retro-email">nxhunter82@gmail.com </span>
+                </div>
+                <div class="footer-note">(c) 2026 HEXA_SEC - Offensive Security Portfolio</div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
-        gsap.to('#main-portfolio', { opacity: 1, duration: 0.8, autoAlpha: 1 });
-        
-        const sections = document.querySelectorAll('section > .container');
-        sections.forEach(el => {
-            gsap.from(el, {
-                opacity: 0,
-                y: 45,
-                duration: 0.8,
-                scrollTrigger: { trigger: el, start: "top 80%", toggleActions: "play none none reset" }
-            });
-        });
-        
-        document.querySelectorAll('.nav-links a, .btn-primary, .brand').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if(href && href.startsWith('#')) {
-                    e.preventDefault();
-                    const target = document.querySelector(href);
-                    if(target) {
-                        gsap.to(window, { duration: 1.2, scrollTo: target, ease: "power3.inOut" });
-                    }
-                }
-            });
-        });
-        
-        const loaderDiv = document.querySelector('.terminal-loader');
-        if(loaderDiv) {
-            const originalText = loaderDiv.innerText;
-            loaderDiv.innerText = '';
-            let idx = 0;
-            function typeEffect() {
-                if(idx < originalText.length) {
-                    loaderDiv.innerText += originalText.charAt(idx);
-                    idx++;
-                    setTimeout(typeEffect, 45);
-                } else {
-                    loaderDiv.style.borderRightColor = 'transparent';
-                }
-            }
-            typeEffect();
-        }
-        
-        const progressBars = document.querySelectorAll('.progress');
-        progressBars.forEach(bar => {
-            let width = bar.style.width;
-            if(width) {
-                bar.style.width = '0%';
-                setTimeout(() => { bar.style.width = width; }, 300);
-            }
-        });
-        
-        const skillItems = document.querySelectorAll('.skill-item');
-        skillItems.forEach(s => {
-            s.addEventListener('mouseenter', () => {
-                gsap.to(s, { scale: 1.01, duration: 0.2, borderLeftWidth: '5px', ease: "power1.out" });
-            });
-            s.addEventListener('mouseleave', () => {
-                gsap.to(s, { scale: 1, borderLeftWidth: '3px', duration: 0.2 });
-            });
-        });
-    });
-</script>
+<script src="script.js"></script>
 </body>
 </html>
