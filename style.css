@@ -1,0 +1,446 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #008080;
+    font-family: 'IBM Plex Mono', 'VT323', monospace;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.desktop {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.taskbar {
+    background: #c0c0c0;
+    height: 40px;
+    border-top: 2px solid #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 8px;
+    box-shadow: inset -1px -1px 0 #000000, inset 1px 1px 0 #ffffff;
+}
+
+.start-button {
+    background: #c0c0c0;
+    padding: 4px 12px;
+    font-weight: bold;
+    font-size: 14px;
+    font-family: monospace;
+    box-shadow: inset -1px -1px 0 #000000, inset 1px 1px 0 #ffffff;
+    cursor: pointer;
+}
+
+.start-button:active {
+    box-shadow: inset 1px 1px 0 #000000, inset -1px -1px 0 #ffffff;
+}
+
+.taskbar-tray {
+    display: flex;
+    gap: 12px;
+    background: #c0c0c0;
+    padding: 4px 8px;
+    box-shadow: inset -1px -1px 0 #000000, inset 1px 1px 0 #ffffff;
+}
+
+.tray-clock {
+    font-family: monospace;
+    font-size: 13px;
+}
+
+.workspace {
+    flex: 1;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 20px;
+    overflow-y: auto;
+    align-items: start;
+}
+
+.window {
+    background: #c0c0c0;
+    box-shadow: inset -1px -1px 0 #000000, inset 1px 1px 0 #ffffff, 4px 4px 8px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+}
+
+.window-bar {
+    background: #000080;
+    padding: 6px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.win-title {
+    font-family: monospace;
+    letter-spacing: 1px;
+}
+
+.win-buttons {
+    display: flex;
+    gap: 6px;
+}
+
+.win-btn {
+    background: #c0c0c0;
+    width: 22px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    color: black;
+    box-shadow: inset -1px -1px 0 #000000, inset 1px 1px 0 #ffffff;
+    cursor: pointer;
+    font-family: monospace;
+}
+
+.win-btn:active {
+    box-shadow: inset 1px 1px 0 #000000, inset -1px -1px 0 #ffffff;
+}
+
+.window-body {
+    padding: 16px;
+    background: #ffffff;
+    border: 2px solid #dfdfdf;
+    border-top: none;
+    flex: 1;
+}
+
+.hero-area {
+    text-align: center;
+}
+
+.ascii-header pre {
+    font-size: 10px;
+    color: #008080;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.hero-area h1 {
+    font-size: 32px;
+    color: #000080;
+    margin-bottom: 8px;
+}
+
+.tagline {
+    font-size: 12px;
+    color: #333;
+    margin-bottom: 16px;
+}
+
+.status-led {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #e0e0e0;
+    padding: 6px 12px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.led-red {
+    width: 10px;
+    height: 10px;
+    background: #ff0000;
+    border-radius: 50%;
+    box-shadow: 0 0 4px red;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+.retro-btn {
+    background: #c0c0c0;
+    border: none;
+    padding: 8px 20px;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: inset -1px -1px 0 #000000, inset 1px 1px 0 #ffffff;
+}
+
+.retro-btn:active {
+    box-shadow: inset 1px 1px 0 #000000, inset -1px -1px 0 #ffffff;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.prompt {
+    color: #008080;
+    font-weight: bold;
+}
+
+.about-text p {
+    margin-bottom: 12px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.cert-list {
+    background: #f0f0f0;
+    border: 1px solid #999;
+    padding: 10px;
+}
+
+.cert-item {
+    font-size: 11px;
+    padding: 6px;
+    border-bottom: 1px dotted #ccc;
+    font-family: monospace;
+}
+
+.certs-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.cert-card {
+    background: #e8e8e8;
+    border: 2px solid #c0c0c0;
+    box-shadow: inset -1px -1px 0 #000000, inset 1px 1px 0 #ffffff;
+    overflow: hidden;
+}
+
+.cert-img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    display: block;
+    border-bottom: 1px solid #aaa;
+}
+
+.cert-label {
+    font-size: 10px;
+    padding: 8px;
+    text-align: center;
+    font-family: monospace;
+    font-weight: bold;
+    background: #d4d0c8;
+}
+
+.verif-badge {
+    text-align: center;
+    font-size: 9px;
+    font-family: monospace;
+    background: #e0e0e0;
+    padding: 6px;
+    margin-bottom: 16px;
+    border: 1px solid #aaa;
+}
+
+.tiktok-card {
+    display: block;
+    background: #d4d0c8;
+    border: 2px solid #c0c0c0;
+    box-shadow: inset -1px -1px 0 #000000, inset 1px 1px 0 #ffffff;
+    text-decoration: none;
+    padding: 12px;
+    transition: all 0.1s ease;
+}
+
+.tiktok-card:hover {
+    background: #c8c4bc;
+}
+
+.tiktok-inner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.tiktok-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #000080;
+}
+
+.tiktok-info {
+    flex: 1;
+}
+
+.tiktok-username {
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 14px;
+    color: #000080;
+}
+
+.tiktok-stats {
+    display: flex;
+    gap: 20px;
+    margin-top: 6px;
+}
+
+.stat {
+    font-size: 10px;
+    font-family: monospace;
+    color: #333;
+}
+
+.tiktok-link {
+    background: #000080;
+    color: white;
+    padding: 6px 12px;
+    font-family: monospace;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.skills-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.skill-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.skill-name {
+    width: 160px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.progress {
+    flex: 1;
+    background: #ffffff;
+    border: 1px solid #808080;
+    height: 18px;
+    box-shadow: inset 1px 1px 0 #000000;
+}
+
+.progress-fill {
+    background: #000080;
+    height: 100%;
+    width: 0%;
+    transition: width 0.5s ease;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+}
+
+.project-card {
+    background: #f5f5f5;
+    border: 1px solid #aaa;
+    padding: 12px;
+}
+
+.project-title {
+    font-weight: bold;
+    font-size: 13px;
+    margin-bottom: 8px;
+    color: #000080;
+}
+
+.project-card p {
+    font-size: 11px;
+    margin-bottom: 10px;
+}
+
+.project-tags {
+    font-size: 9px;
+    font-family: monospace;
+    color: #555;
+    border-top: 1px solid #ccc;
+    padding-top: 6px;
+}
+
+.contact-area {
+    text-align: center;
+}
+
+.contact-links {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.retro-link {
+    color: #000080;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: monospace;
+    border-bottom: 2px solid #c0c0c0;
+}
+
+.retro-link:hover {
+    border-bottom-color: #000080;
+}
+
+.retro-email {
+    font-family: monospace;
+    font-size: 12px;
+    background: #e0e0e0;
+    padding: 4px 8px;
+}
+
+.footer-note {
+    margin-top: 20px;
+    font-size: 9px;
+    color: #666;
+}
+
+@media (max-width: 800px) {
+    .workspace {
+        grid-template-columns: 1fr;
+    }
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+    .certs-gallery {
+        grid-template-columns: 1fr;
+    }
+    .skill-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .skill-name {
+        width: auto;
+    }
+    .tiktok-inner {
+        flex-direction: column;
+        text-align: center;
+    }
+    .tiktok-stats {
+        justify-content: center;
+    }
+}
